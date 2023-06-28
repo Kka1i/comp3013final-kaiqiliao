@@ -38,6 +38,23 @@ const FoodSeacher = () => {
     setSearchText(e.target.value);
   };
 
+  const getHighlightedText = (text:string, highlight:string) => {
+    const parts = text.split(new RegExp(`(${highlight})`, "gi"));
+    return (
+      <p>
+        {parts.map((part:any, i:any) =>
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <span key={i} style={{ backgroundColor: "yellow" }}>
+              {part}
+            </span>
+          ) : (
+            part
+          )
+        )}
+      </p>
+    );
+  };
+
   const filteredFoods = foods.filter((food) =>
     food.name.toLowerCase().includes(searchText.toLowerCase())
   );
@@ -54,7 +71,7 @@ const FoodSeacher = () => {
         {filteredFoods.map((food) => (
           <li key={food.id}>
             <h3>{food.name}</h3>
-            <p>{food.description}</p>
+            {getHighlightedText(food.description, searchText)}
           </li>
         ))}
       </ul>
